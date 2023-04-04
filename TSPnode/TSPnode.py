@@ -1,5 +1,5 @@
 import math
-
+from math import cos
 
 class TspNode:
 
