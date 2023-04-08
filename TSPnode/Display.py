@@ -1,39 +1,14 @@
 import tkinter as tk
 from typing import Callable
-import math
-
-
-def say_hello():
-    print("Hello, World!")
-
-
-class Node:
-    def __init__(self, x: float, y: float, name: str):
-        self.x: float = x
-        self.y: float = y
-        self.weight: float = -1
-        self.name: str = name
-
-    def generate_weight(self):
-        self.weight = math.sqrt((self.x - self.x) **
-                                2 + (self.y - self.y) ** 2)
-    pass
-
-
-class Edge:
-    def __init__(self, source: Node, destination: Node):
-        self.source: Node = source
-        self.destination: Node = destination
-
-    pass
+from Node import Node
+from Edge import Edge
 
 
 class Scene():
     def __init__(self):
         self.window = tk.Tk()
         self.canvas = tk.Canvas(self.window, width=300, height=300)
-        self.nodes: dict[str, Node] = dict()
-        self.edges: dict[tuple[str, str], Edge] = dict()
+
         self.solve_command = None
 
         self.window.protocol("WM_DELETE_WINDOW", self.window.quit)
@@ -61,27 +36,21 @@ class Scene():
     def mainloop(self):
         self.window.mainloop()
 
-    def add_node(self, node: Node):
-        self.nodes[node.name] = node
-
-    def add_edge(self, edge: Edge):
-        self.edges[(edge.source.name, edge.destination.name)] = edge
-
-    def draw(self):
+    def draw_nodes(self, nodes: 'dict[str, Node]', edges: 'dict[tuple[str, str], Edge]'):
         self.canvas.delete('all')
         NODE_SIZE = 20
         edge: Edge
-        for edge in self.edges.values():
-            if edge.source.name not in self.nodes:
+        for edge in edges.values():
+            if edge.source.name not in nodes:
                 raise Exception(
                     f"Tried to create an edge with a source that does not exist ({edge})")
-            if edge.destination.name not in self.nodes:
+            if edge.destination.name not in nodes:
                 raise Exception(
                     f"Tried to create an edge with a destination that does not exist ({edge})")
             self.canvas.create_line(
                 edge.source.x, edge.source.y, edge.destination.x, edge.destination.y)
         node: Node
-        for node in self.nodes.values():
+        for node in nodes.values():
             self.canvas.create_oval(node.x - NODE_SIZE/2, node.y - NODE_SIZE/2,
                                     node.x + NODE_SIZE/2, node.y + NODE_SIZE/2, fill="white")
 
@@ -94,30 +63,3 @@ class Scene():
 
     def assign_solve_command(self, command: Callable):
         self.solve_command = command
-
-
-def main():
-    scene = Scene()
-    scene.assign_solve_command(solve)
-    nodeA = Node(100, 100, "a")
-    nodeB = Node(150, 100, "b")
-    nodeC = Node(100, 150, "c")
-    edgeAB = Edge(nodeA, nodeB)
-    scene.add_node(nodeA)
-    scene.add_node(nodeB)
-    scene.add_node(nodeC)
-
-    scene.add_edge(edgeAB)
-
-    scene.draw()
-    scene.mainloop()
-
-    print("Closed succesfully")
-
-
-def solve():
-    print("totally solved")
-
-
-if __name__ == "__main__":
-    main()
