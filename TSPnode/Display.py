@@ -56,20 +56,20 @@ class Scene():
             #     raise Exception(
             #         f"Tried to create an edge with a destination that does not exist ({edge})")
         for edge in edges.values():
-            WEIGHT_NODE_SIZE = 15
             if edge.highlight:
                 self.canvas.create_line(
                     edge.source.x, edge.source.y, edge.destination.x, edge.destination.y, fill="black", width=5)
                 self.canvas.create_line(
                     edge.source.x, edge.source.y, edge.destination.x, edge.destination.y, fill="red", width=3)
+        for edge in edges.values():
+            WEIGHT_NODE_SIZE = 15
+            if edge.highlight:
                 midpoint_x = (edge.source.x + edge.destination.x)/2
                 midpoint_y = (edge.source.y + edge.destination.y)/2
                 # create text with weight
                 self.canvas.create_oval(midpoint_x - NODE_SIZE/2, midpoint_y - NODE_SIZE/2,
                                         midpoint_x + NODE_SIZE/2, midpoint_y + NODE_SIZE/2, fill="white", outline="white")
                 self.canvas.create_text(midpoint_x, midpoint_y, text=f"{edge.weight:.1f}", font=("Roboto Thin", 7))
-
-            pass
         node: Node
         for node in nodes.values():
             color = None
