@@ -33,10 +33,11 @@ def simulated_annealing(node_manager: NodeManager):
                 best_distance = temp_distance
         temperature = freezing(temperature, gamma)
     print(nodes)
-    print(MatrixToolsTSP.calculate_cost(matrix, nodes))
-    node_manager.highlight_path(nodes)
-    node_manager.draw()
-    node_manager.unhighligh_all()
+    cost = MatrixToolsTSP.calculate_cost(matrix, nodes)
+    print(MatrixToolsTSP.compare_best_solution(node_manager.best_solution_weight, cost))
+
+    # Highlight and draw the best path in the NodeManager object.
+    MatrixToolsTSP.highlight_and_draw(node_manager, nodes)
 
     print("Solved!")
 
