@@ -2,21 +2,22 @@ import random
 import numpy as np
 from NodeManager import NodeManager
 
-def calculate_cost(matrix, path):
+def calculate_cost(matrix, path) -> float:
     total_cost = 0
     for i in range(len(path) - 1):
         total_cost += matrix[path[i]][path[i+1]]
-    print(total_cost)
+    return total_cost
 
 def highlight_and_draw(node_manager: NodeManager, path: 'list[int]'):
     node_manager.highlight_path(path)
     node_manager.draw()
     node_manager.unhighligh_all()
 
-def compare_best_solution(best_weight: float, current_weight: float):
+def compare_best_solution(best_weight: float, current_weight: float) -> str:
+    if best_weight is None:
+        return "No best possible solution data available."
     percent_more_than = (current_weight/best_weight - 1.0)*100
-    print(
-        f"This algorithm found a distance {percent_more_than:.4f}% longer than the best possible solution.")
+    return f"This algorithm found a distance {percent_more_than:.4f}% longer than the best possible solution."
     
 def print_random_vertecies(x, y, width, height, count):
     for _ in range(count):
