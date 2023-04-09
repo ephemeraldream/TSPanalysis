@@ -6,11 +6,14 @@ import numpy as np
 import itertools
 import MatrixToolsTSP
 import random
-from NearestNeighborTSP import solve_nearest_neighbor
-from BruteForceTSP import solve_brute_force
+from NearestNeighborTSP import solve
+from BruteForceTSP import solve
 
 
-def simulated_annealing(node_manager: NodeManager, temperature: float, iters: int, gamma: float):
+def simulated_annealing(node_manager: NodeManager):
+    temperature: float = 1000
+    iters: int = 1000
+    gamma: float = 0.95
     matrix = node_manager.generate_matrix()
 
     num_nodes = len(matrix)
