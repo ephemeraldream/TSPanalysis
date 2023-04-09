@@ -41,7 +41,7 @@ def solve(node_manager: NodeManager) -> None:
     repeatively pick the shortest unvisited node, complete the circuit. This
     can sometimes give poor results but generally does better than simply
     randomly picking a permutation as a path. It uses a space complexity of
-    O(n) to store a path and unvisited nodes.
+    O(n^2) as that is the size of the matrix.
     
     This approach is O(n). As it only has to keep picking the shortest path n
     times. The current implementation however isn't quite O(n) because it
@@ -53,7 +53,7 @@ def solve(node_manager: NodeManager) -> None:
     
     tl;dr
         Time complexity: O(n) (currently though O(n^2))
-        Space complexity: O(n)
+        Space complexity: O(n^2)
 
     Args:
         node_manager (NodeManager): Needs a NodeManager to be passed as the

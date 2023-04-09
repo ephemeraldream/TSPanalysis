@@ -5,11 +5,11 @@
     Because this is a brute-force algorithm it will calculate the distance of
     every possible permutation of paths. Thus, this algorithm will run O(n!)
     operations, where n is the number of nodes. Space complexity will be
-    O(n) as we will be generating a path of n length.
+    O(n^2) as that is the size of the matrix.
     
     tl;dr
         Time complexity: O(n!)
-        Space complexity: O(n)
+        Space complexity: O(n^2)
 
 Raises:
         Exception: When attempting to solve a matrix bigger than 9
