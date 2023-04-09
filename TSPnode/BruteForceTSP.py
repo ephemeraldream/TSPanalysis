@@ -1,9 +1,9 @@
 import itertools
 from NodeManager import NodeManager
 from MatrixToolsTSP import calculate_cost
+import MatrixToolsTSP
 
-
-def solve_brute_force(node_manager: NodeManager):
+def solve(node_manager: NodeManager) -> None:
     if len(node_manager.nodes) > 9:
         raise Exception(
             "ABORTING! Cannot feasably solve over 9 nodes using this approach in a timely manner!")
@@ -28,10 +28,5 @@ def solve_brute_force(node_manager: NodeManager):
 
     print(best_path)
     print(calculate_cost(matrix, best_path))
-    node_manager.highlight_path(best_path)
-    node_manager.draw()
-    node_manager.unhighligh_all()
-
+    MatrixToolsTSP.highlight_and_draw(node_manager, best_path)
     print("Solved!")
-
-    return best_path
