@@ -11,6 +11,7 @@ class NodeManager:
         self.edges: dict[tuple[str, str], Edge] = dict()
         self.scene: Display.Scene
         self.solve_commands: dict[str, Callable] = {"Select Algo": None}
+        self.best_solution_weight: float = -1
 
     # add a node to the NodeManager
     def add_node(self, node: Node):
