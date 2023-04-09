@@ -1,96 +1,90 @@
+import math
 from NodeManager import NodeManager
 from Node import Node
 from Edge import Edge
 import numpy as np
-from random import random
+import random
+from NearestNeighborTSP import solve_nearest_neighbor
+from BruteForceTSP import solve_brute_force
 
 node_manager = NodeManager()
 
+graph3 = ((100, 100),
+          (150, 100),
+          (100, 150))
+
+graph5 = ((230.49504523961062, 105.43057168619771),
+          (338.0115162465884, 157.20422605699437),
+          (178.61405457099016, 248.0545501331334),
+          (323.3895424676583, 207.4384329111723),
+          (99.88198923623604, 182.1961799738695))
+
+graph7 = ((340.35029115373504, 291.9911036284341),
+          (330.546912512813, 50.76377300133961),
+          (102.02621099177865, 314.0781008584721),
+          (192.30295951856758, 316.8848105036639),
+          (155.10029229106644, 205.99512383080938),
+          (236.62287527731527, 191.59689495925704),
+          (80.57511663571202, 131.04706564193646))
+
+graph10 = ((168.87564991613763, 224.00475922677046),
+           (225.55478793876802, 69.95926719875305),
+           (290.7925722451604, 195.52894255256285),
+           (57.29739774371288, 255.6624830176453),
+           (270.14700507253997, 344.24929501176723),
+           (80.4312032802269, 151.7902987241904),
+           (334.2859624137761, 287.90233760039587),
+           (246.1610173095308, 81.59918420334145),
+           (98.89499875712568, 322.1012226197179),
+           (256.38504957287716, 149.4712506936051))
+
+graph20 = ((174.4130316683828, 69.55558809662536),
+           (29.868265154015937, 28.346875777925874),
+           (178.79564979865066, 312.0379139676986),
+           (328.4151854900073, 163.3721443627838),
+           (358.1405353962685, 128.95922425718948),
+           (67.12567194635979, 62.111764772615686),
+           (191.15021630009457, 236.83069707019496),
+           (208.25299236469016, 140.88326001297673),
+           (52.9235287573503, 164.93359059469086),
+           (389.4501822131618, 51.55948048221493),
+           (353.83849605846666, 398.3092969478408),
+           (394.13894803623856, 309.17129591058347),
+           (284.56353691893764, 162.04260995464915),
+           (286.60619101735426, 194.66470239511418),
+           (78.49614836114479, 67.91040882661727),
+           (352.4015027655291, 248.07480569101918),
+           (113.9784380920963, 224.45683794390237),
+           (181.87566208948775, 394.52568073410214),
+           (109.52410586219484, 385.38509459600556),
+           (300.85998645444397, 128.82662723159416))
+
+
 def pretty_print(matrix: 'list[list[float]]'):
     np_matrix = np.array(matrix)
-    print(np.array2string(np_matrix, formatter={'float_kind': '{0:.1f}'.format}))
+    print(np.array2string(np_matrix, formatter={
+          'float_kind': '{0:.1f}'.format}))
 
-def printRandomVertecies(x, y, width, height, count):
+
+def print_random_vertecies(x, y, width, height, count):
     for _ in range(count):
-        print(f"{random()*width+x}, {random()*height+y}")
-    
-    
-
-def createGraph3():
-    nodeA = Node(100, 100, "a")
-    nodeB = Node(150, 100, "b")
-    nodeC = Node(100, 150, "c")
-
-    node_manager.add_node(nodeA)
-    node_manager.add_node(nodeB)
-    node_manager.add_node(nodeC)
-    
-    node_manager.generate_all_edges()
-
-def createGraph5():
-    nodes = [
-        Node(230.49504523961062, 105.43057168619771, "a"),
-        Node(338.0115162465884, 157.20422605699437, "b"),
-        Node(178.61405457099016, 248.0545501331334, "c"),
-        Node(323.3895424676583, 207.4384329111723, "d"),
-        Node(99.88198923623604, 182.1961799738695, "e")
-    ]
-    for node in nodes:
-        node_manager.add_node(node)
-    node_manager.generate_all_edges()
-
-def createGraph7():
-    nodes = [
-        Node(340.35029115373504, 291.9911036284341, "a"),
-        Node(330.546912512813, 50.76377300133961, "b"),
-        Node(102.02621099177865, 314.0781008584721, "c"),
-        Node(192.30295951856758, 316.8848105036639, "d"),
-        Node(155.10029229106644, 205.99512383080938, "e"),
-        Node(236.62287527731527, 191.59689495925704, "f"),
-        Node(80.57511663571202, 131.04706564193646, "g")
-    ]
-    for node in nodes:
-        node_manager.add_node(node)
-    node_manager.generate_all_edges()
-
-def createGraph10():
-    nodes = [
-        Node(168.87564991613763, 224.00475922677046, "a"),
-        Node(225.55478793876802, 69.95926719875305, "b"),
-        Node(290.7925722451604, 195.52894255256285, "c"),
-        Node(57.29739774371288, 255.6624830176453, "d"),
-        Node(270.14700507253997, 344.24929501176723, "e"),
-        Node(80.4312032802269, 151.7902987241904, "f"),
-        Node(334.2859624137761, 287.90233760039587, "g"),
-        Node(246.1610173095308, 81.59918420334145, "h"),
-        Node(98.89499875712568, 322.1012226197179, "i"),
-        Node(256.38504957287716, 149.4712506936051, "j")
-    ]
-    for node in nodes:
-        node_manager.add_node(node)
-    node_manager.generate_all_edges()
+        print(f"{random.random()*width+x}, {random.random()*height+y}")
 
 def main():
     node_manager.init_display()
-    
-    createGraph5()
-    
+
+    node_manager.generate_graph(graph10)
+
     node_manager.generate_matrix()
-    node_manager.assign_solve_command(solve)
+    node_manager.assign_solve_command(
+        solve_nearest_neighbor, "Nearest Neighbor")
+    node_manager.assign_solve_command(solve_brute_force, "Brute force")
 
     node_manager.draw()
     node_manager.display_mainloop()
 
     print("Closed succesfully")
 
-def solve():
-    matrix = node_manager.generate_matrix()
-    
-    
-    
-    pretty_print(matrix)
-    
-    print("totally solved...")
 
 if __name__ == "__main__":
     main()
