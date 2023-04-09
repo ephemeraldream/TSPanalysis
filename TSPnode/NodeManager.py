@@ -107,3 +107,20 @@ class NodeManager:
             if length == 0:
                 break
         self.generate_all_edges()
+    
+    def highlight_path(self, path: 'list[int]'):
+        node_names = [self.get_node_from_matrix(index) for index in path]
+        print(node_names)
+        for i in range(len(node_names) - 1):
+            self.nodes[node_names[i]].highlight = True
+            self.edges[(node_names[i],node_names[i+1])].highlight = True
+        if node_names[len(node_names) - 1] is not node_names[0]:
+            self.nodes[node_names[len(node_names) - 1]].highlight = True
+            self.edges[node_names[len(node_names) - 1], node_names[0]].highlight = True
+        
+    def unhighligh_all(self):
+        for node in self.nodes.values():
+            node.highlight = False
+        for edge in self.edges.values():
+            edge.highlight = False
+            
