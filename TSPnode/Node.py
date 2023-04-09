@@ -3,3 +3,4 @@ class Node:
         self.x: float = x
         self.y: float = y
         self.name: str = name
+        self.highlight: bool = False

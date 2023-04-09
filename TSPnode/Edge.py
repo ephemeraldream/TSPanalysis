@@ -9,6 +9,7 @@ class Edge:
         self.weight: float = weight
         if self.weight < 0:
             self.generate_weight()
+        self.highlight: bool = False
 
     def generate_weight(self):
         self.weight = math.sqrt(
