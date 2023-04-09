@@ -7,6 +7,7 @@ from Edge import Edge
 class Scene():
     def __init__(self):
         self.window = tk.Tk()
+        self.window.title("TSP Visual")
         self.canvas = tk.Canvas(self.window, width=400, height=400)
 
         self.run_solve_command = None
