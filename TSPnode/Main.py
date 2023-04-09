@@ -73,7 +73,7 @@ def print_random_vertecies(x, y, width, height, count):
 def main():
     node_manager.init_display()
 
-    node_manager.generate_graph(graph10)
+    node_manager.generate_graph(graph7)
 
     node_manager.generate_matrix()
     node_manager.assign_solve_command(
