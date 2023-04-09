@@ -10,6 +10,7 @@ class NodeManager:
         self.nodes: dict[str, Node] = dict()
         self.edges: dict[tuple[str, str], Edge] = dict()
         self.scene: Display.Scene
+        self.solve_commands: dict[str, Callable] = {"Select Algo": None}
 
     # add a node to the NodeManager
     def add_node(self, node: Node):
@@ -62,6 +63,8 @@ class NodeManager:
     # initialize the display by preparing the window (mainloop is needed for the window to show up)
     def init_display(self):
         self.scene = Display.Scene()
+        self.scene.run_solve_command = self.run_solve_command
+        self.scene.solve_commands = self.solve_commands
 
     # begin the tkinter display mainloop (note: execution is permanently kept by the display at this point.
     # Use event hooks to receive execute commands)
@@ -73,5 +76,34 @@ class NodeManager:
         self.scene.draw_nodes(self.nodes, self.edges)
 
     # pass in your custom function to be executed when a user clicks the "solve" button
-    def assign_solve_command(self, command: Callable):
-        self.scene.assign_solve_command(command)
+    def assign_solve_command(self, name: str, command: Callable):
+        self.scene.assign_solve_command(name, command)
+    
+    def run_solve_command(self):
+        solve_command = self.solve_commands[self.scene.selected_option.get()]
+        if callable(solve_command):
+            solve_command(self)
+        else:
+            raise Exception(
+                "No callable \"solve_command\" present. Run assign_solve_command(command: Callable) to fix the issue.")
+    
+    def assign_solve_command(self, command: Callable, name: str):
+        self.solve_commands[name] = command
+        #self.selected_option.set(name)
+        self.scene.assign_solve_command(command, name)
+    
+    def generate_graph(self, coordinates: 'list[tuple]', length=-1):
+        name = ord('a')
+        overflow = 0
+        for coordinate in coordinates:
+            overflow_char = ''
+            if name == 123:
+                overflow += 1
+                overflow_char = str(overflow)
+            else:
+                name += 1
+            self.add_node(Node(coordinate[0], coordinate[1], chr(name) + overflow_char))
+            length -= 1
+            if length == 0:
+                break
+        self.generate_all_edges()
