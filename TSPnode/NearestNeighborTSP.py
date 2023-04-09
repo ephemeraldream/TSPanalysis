@@ -3,11 +3,12 @@ import random
 import math
 from NodeManager import NodeManager
 from MatrixToolsTSP import calculate_cost
+import MatrixToolsTSP
 # currently following the pdf below
 # http://160592857366.free.fr/joe/ebooks/ShareData/Heuristics%20for%20the%20Traveling%20Salesman%20Problem%20By%20Christian%20Nillson.pdf
 
 
-def solve_nearest_neighbor(node_manager: NodeManager):
+def solve(node_manager: NodeManager) -> None:
     matrix = node_manager.generate_matrix()
     visited_cities = [False]*len(matrix)
     path = []
@@ -36,8 +37,5 @@ def solve_nearest_neighbor(node_manager: NodeManager):
 
     print(path)
     print(calculate_cost(matrix, path))
-    node_manager.highlight_path(path)
-    node_manager.draw()
-    node_manager.unhighligh_all()
-
+    MatrixToolsTSP.highlight_and_draw(node_manager, path)
     print("Solved!")
