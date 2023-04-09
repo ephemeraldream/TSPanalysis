@@ -28,6 +28,9 @@ def solve_brute_force(node_manager: NodeManager):
 
     print(best_path)
     print(calculate_cost(matrix, best_path))
+    node_manager.highlight_path(best_path)
+    node_manager.draw()
+    node_manager.unhighligh_all()
 
     print("Solved!")
 

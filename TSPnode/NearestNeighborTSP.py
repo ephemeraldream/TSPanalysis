@@ -31,9 +31,13 @@ def solve_nearest_neighbor(node_manager: NodeManager):
         # are there any unvisited cities left? If yes, repeat step 2
 
     # return to first city
-    path.append(start_city)
+    # node: omitted but is currently still handled by node_manager (having a duplicate end and start)
+    # path.append(start_city)
 
     print(path)
     print(calculate_cost(matrix, path))
+    node_manager.highlight_path(path)
+    node_manager.draw()
+    node_manager.unhighligh_all()
 
     print("Solved!")
