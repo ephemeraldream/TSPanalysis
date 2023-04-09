@@ -8,8 +8,10 @@ class Scene():
     def __init__(self):
         self.window = tk.Tk()
         self.canvas = tk.Canvas(self.window, width=400, height=400)
-        self.SOLVE_OPTIONS = ["Heuristic/Naive", "Option 2", "Option 3"]
-        self.solve_command = None
+        
+        self.run_solve_command = None
+        self.solve_commands = None
+        
 
         self.window.protocol("WM_DELETE_WINDOW", self.window.quit)
 
@@ -27,13 +29,13 @@ class Scene():
         text_box2.pack(side=tk.LEFT, padx=5, pady=5)
 
         # Create the submit button
-        submit_button = tk.Button(form_frame, text="Solve", command=self.run_solve_command)
-        submit_button.pack(side=tk.LEFT, padx=5, pady=5)
+        self.submit_button = tk.Button(form_frame, text="Solve", command=None)
+        self.submit_button.pack(side=tk.LEFT, padx=5, pady=5)
 
         # Create the dropdown button
-        selected_option = tk.StringVar(value=self.SOLVE_OPTIONS[0])
-        dropdown_menu = tk.OptionMenu(form_frame, selected_option, *self.SOLVE_OPTIONS)
-        dropdown_menu.pack(side=tk.LEFT, padx=5, pady=5)
+        self.selected_option = tk.StringVar(value="Select Algo")
+        self.dropdown_menu = tk.OptionMenu(form_frame, self.selected_option, "Select Algo")
+        self.dropdown_menu.pack(side=tk.LEFT, padx=5, pady=5)
 
     def mainloop(self):
         self.window.mainloop()
@@ -67,12 +69,8 @@ class Scene():
                                     node.x + NODE_SIZE/2, node.y + NODE_SIZE/2, fill="white", outline=color)
             self.canvas.create_text(node.x, node.y, text=node.name)
 
-    def run_solve_command(self):
-        if callable(self.solve_command):
-            self.solve_command()
-        else:
-            raise Exception(
-                "No callable \"solve_command\" present. Run assign_solve_command(command: Callable) to fix the issue.")
-
-    def assign_solve_command(self, command: Callable):
-        self.solve_command = command
+    
+    def assign_solve_command(self, command: Callable, name: str):
+        self.submit_button.configure(command=self.run_solve_command)
+        self.dropdown_menu["menu"].add_command(label=name, command=tk._setit(self.selected_option, name))
+    
