@@ -1,3 +1,20 @@
+"""Solve the travelling salesman problem using a brute-force approach
+    (assuming all nodes have edges to all other nodes). Update the result to
+    the GUI.
+
+    Because this is a brute-force algorithm it will calculate the distance of
+    every possible permutation of paths. Thus, this algorithm will run O(n!)
+    operations, where n is the number of nodes. Space complexity will be
+    O(n) as we will be generating a path of n length.
+    
+    tl;dr
+        Time complexity: O(n!)
+        Space complexity: O(n)
+
+Raises:
+        Exception: When attempting to solve a matrix bigger than 9
+        (it would take too long).
+"""
 import itertools
 from NodeManager import NodeManager
 from MatrixToolsTSP import calculate_cost

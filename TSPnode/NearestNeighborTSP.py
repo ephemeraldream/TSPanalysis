@@ -1,4 +1,26 @@
+"""Solve the travelling salesman problem using a nearest-neighbor approach
+    (assuming all nodes have edges to all other nodes). Update the result to
+    the GUI.
 
+    The Nearest Neighbor approach is very lazy in which it repeatively chooses
+    the shortest node at every step. The steps are: pick random node,
+    repeatively pick the shortest unvisited node, complete the circuit. This
+    can sometimes give poor results but generally does better than simply
+    randomly picking a permutation as a path. It uses a space complexity of
+    O(n) to store a path and unvisited nodes.
+    
+    This approach is O(n). As it only has to keep picking the shortest path n
+    times. The current implementation however isn't quite O(n) because it
+    searches the entire node for the shortest next node at every step of the
+    path (making it O(n^2)). This, however, can be mitigated by using a
+    non-comparison sorting algorithm and appropriate data structures (making
+    it O(n) again). It's not currently implemented as it adds complexity
+    taking away from the main focus of the nearest neighbor algorithm.
+
+    tl;dr
+        Time complexity: O(n) (currently though O(n^2))
+        Space complexity: O(n)
+"""
 import random
 import math
 from NodeManager import NodeManager
