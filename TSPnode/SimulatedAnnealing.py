@@ -18,11 +18,11 @@ def simulated_annealing(node_manager: NodeManager):
 
     num_nodes = len(matrix)
     nodes = list(range(num_nodes))
-    best_distance = MatrixToolsTSP.calculate_cost(matrix, nodes)
+    best_distance = MatrixToolsTSP.calculate_circuit_cost(matrix, nodes)
     for i in range(iters):
         new_nodes = nodes.copy()
         swap_random(new_nodes)
-        temp_distance = MatrixToolsTSP.calculate_cost(matrix, new_nodes)
+        temp_distance = MatrixToolsTSP.calculate_circuit_cost(matrix, new_nodes)
         if best_distance > temp_distance:
             nodes = new_nodes.copy()
             best_distance = temp_distance
@@ -33,7 +33,7 @@ def simulated_annealing(node_manager: NodeManager):
                 best_distance = temp_distance
         temperature = freezing(temperature, gamma)
     print(nodes)
-    cost = MatrixToolsTSP.calculate_cost(matrix, nodes)
+    cost = MatrixToolsTSP.calculate_circuit_cost(matrix, nodes)
     print(cost)
     print(MatrixToolsTSP.compare_best_solution(node_manager.best_solution_weight, cost))
 

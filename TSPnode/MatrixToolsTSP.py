@@ -8,6 +8,14 @@ def calculate_cost(matrix, path) -> float:
         total_cost += matrix[path[i]][path[i+1]]
     return total_cost
 
+def calculate_circuit_cost(matrix, path) -> float:
+    total_cost = 0
+    for i in range(len(path) - 1):
+        total_cost += matrix[path[i]][path[i+1]]
+    if path[len(path) - 1] != path[0]:
+        total_cost += matrix[path[len(path) - 1]][path[0]]
+    return total_cost
+
 def highlight_and_draw(node_manager: NodeManager, path: 'list[int]'):
     node_manager.highlight_path(path)
     node_manager.draw()
@@ -32,7 +40,7 @@ graph3 = ((100, 100),
           (150, 100),
           (100, 150))
 
-graph3_best_distance = 120.71067811865476
+graph3_best_distance = 170.71067811865476
 graph3_best_path = ['b', 'c', 'd']
 
 graph5 = ((230.49504523961062, 105.43057168619771),
@@ -41,8 +49,8 @@ graph5 = ((230.49504523961062, 105.43057168619771),
           (323.3895424676583, 207.4384329111723),
           (99.88198923623604, 182.1961799738695))
 
-graph5_best_distance = 424.66199102233486
-graph5_best_path = ['b', 'c', 'e', 'd', 'f']
+graph5_best_distance = 576.1635719194229
+graph5_best_path = ['b', 'f', 'd', 'e', 'c']
 
 graph7 = ((340.35029115373504, 291.9911036284341),
           (330.546912512813, 50.76377300133961),
@@ -52,7 +60,7 @@ graph7 = ((340.35029115373504, 291.9911036284341),
           (236.62287527731527, 191.59689495925704),
           (80.57511663571202, 131.04706564193646))
 
-graph7_best_distance = 839.6306501350851
+graph7_best_distance = 1023.9144239772485
 graph7_best_path = ['d', 'e', 'b', 'c', 'g', 'f', 'h']
 
 graph10 = ((168.87564991613763, 224.00475922677046),
@@ -66,7 +74,7 @@ graph10 = ((168.87564991613763, 224.00475922677046),
            (98.89499875712568, 322.1012226197179),
            (256.38504957287716, 149.4712506936051))
 
-graph10_best_distance = 942.7208173619603
+graph10_best_distance = 966.3873413305154
 graph10_best_path = ['c', 'g', 'e', 'j', 'b', 'f', 'h', 'd', 'k', 'i']
 
 graph20 = ((174.4130316683828, 69.55558809662536),

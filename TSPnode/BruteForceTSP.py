@@ -17,7 +17,7 @@ Raises:
 """
 import itertools
 from NodeManager import NodeManager
-from MatrixToolsTSP import calculate_cost
+from MatrixToolsTSP import calculate_cost, calculate_circuit_cost
 import MatrixToolsTSP
 
 
@@ -46,7 +46,7 @@ def solve(node_manager: NodeManager) -> None:
     """
     # Check if the number of nodes in the NodeManager object is greater than 9.
     # If it is, raise an exception and print a message.
-    if len(node_manager.nodes) > 9:
+    if len(node_manager.nodes) > 10:
         raise Exception(
             "ABORTING! Cannot feasably solve over 9 nodes \
                 using this approach in a timely manner!")
@@ -71,8 +71,7 @@ def solve(node_manager: NodeManager) -> None:
         cost = 0
 
         # Calculate the cost of the current path.
-        for i in range(num_nodes):
-            cost += matrix[perm[i-1]][perm[i]]
+        cost = calculate_circuit_cost(matrix, perm)
 
         # Update the best path and its cost if this path is better.
         if cost < best_cost:
@@ -83,7 +82,7 @@ def solve(node_manager: NodeManager) -> None:
     print(best_path)
 
     # Calculate and print the cost of the best path.
-    cost = calculate_cost(matrix, best_path)
+    cost = calculate_circuit_cost(matrix, best_path)
     print(cost)
     
     # Print a comparison between the best known solution and the current solution

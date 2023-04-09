@@ -24,7 +24,7 @@
 import random
 import math
 from NodeManager import NodeManager
-from MatrixToolsTSP import calculate_cost
+from MatrixToolsTSP import calculate_cost, calculate_circuit_cost
 import MatrixToolsTSP
 # currently following the pdf below
 # http://160592857366.free.fr/joe/ebooks/ShareData/Heuristics%20for%20the%20Traveling%20Salesman%20Problem%20By%20Christian%20Nillson.pdf
@@ -96,7 +96,7 @@ def solve(node_manager: NodeManager) -> None:
     print(path)
 
     # Calculate and print the cost of the path.
-    cost = calculate_cost(matrix, path)
+    cost = calculate_circuit_cost(matrix, path)
     print(cost)
     
     # Print a comparison between the best known solution and the current solution
