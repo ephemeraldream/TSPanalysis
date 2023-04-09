@@ -36,6 +36,10 @@ def simulated_annealing(node_manager: NodeManager):
     cost = MatrixToolsTSP.calculate_circuit_cost(matrix, nodes)
     print(cost)
     print(MatrixToolsTSP.compare_best_solution(node_manager.best_solution_weight, cost))
+    
+    # TEMP TODO calculating and setting distance on the spot
+    # this is not the right place to be doing this however
+    node_manager.scene.distance_result.config(text=f"Distance: {cost:.2f}")
 
     # Highlight and draw the best path in the NodeManager object.
     MatrixToolsTSP.highlight_and_draw(node_manager, nodes)

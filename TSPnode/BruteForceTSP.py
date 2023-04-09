@@ -46,7 +46,7 @@ def solve(node_manager: NodeManager) -> None:
     """
     # Check if the number of nodes in the NodeManager object is greater than 9.
     # If it is, raise an exception and print a message.
-    if len(node_manager.nodes) > 10:
+    if len(node_manager.nodes) > 9:
         raise Exception(
             "ABORTING! Cannot feasably solve over 9 nodes \
                 using this approach in a timely manner!")
@@ -87,6 +87,10 @@ def solve(node_manager: NodeManager) -> None:
     
     # Print a comparison between the best known solution and the current solution
     print(MatrixToolsTSP.compare_best_solution(node_manager.best_solution_weight, cost))
+    
+    # TEMP TODO calculating and setting distance on the spot
+    # this is not the right place to be doing this however
+    node_manager.scene.distance_result.config(text=f"Distance: {cost:.2f}")
 
     # Highlight and draw the best path in the NodeManager object.
     MatrixToolsTSP.highlight_and_draw(node_manager, best_path)

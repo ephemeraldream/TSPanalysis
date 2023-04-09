@@ -17,16 +17,16 @@ def calculate_circuit_cost(matrix, path) -> float:
     return total_cost
 
 def highlight_and_draw(node_manager: NodeManager, path: 'list[int]'):
+    node_manager.unhighligh_all()
     node_manager.highlight_path(path)
     node_manager.draw()
-    node_manager.unhighligh_all()
 
 def compare_best_solution(best_weight: float, current_weight: float) -> str:
     if best_weight is None:
         return "No best possible solution data available."
     percent_more_than = (current_weight/best_weight - 1.0)*100
     return f"This algorithm found a distance {percent_more_than:.4f}% longer than the best possible solution."
-    
+
 def print_random_vertecies(x, y, width, height, count):
     for _ in range(count):
         print(f"{random.random()*width+x}, {random.random()*height+y}")

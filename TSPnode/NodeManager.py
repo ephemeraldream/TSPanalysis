@@ -3,6 +3,7 @@ import Display
 from Node import Node
 from Edge import Edge
 from typing import Callable
+import random
 
 
 class NodeManager:
@@ -109,6 +110,33 @@ class NodeManager:
                 break
         self.generate_all_edges()
     
+    def generate_random_graph(self, seed: int, length: int):
+        MIN_X = 25.0
+        MIN_Y = 25.0
+        MAX_X = 350.0
+        MAX_Y = 350.0
+
+        random.seed(seed)
+        name = ord('a')
+        overflow = 0
+        for i in range(length):
+            overflow_char = ''
+            if name == 122:
+                overflow += 1
+                name = ord('a')
+            else:
+                name += 1
+            if overflow > 0:
+                overflow_char = str(overflow)
+            random_x = random.random() * (MAX_X - MIN_X) + MIN_X
+            random_y = random.random() * (MAX_Y - MIN_Y) + MIN_Y
+            self.add_node(Node(random_x, random_y, chr(name) + overflow_char))
+            
+        self.generate_all_edges()
+        
+        if length > 16:
+            self.scene.show_unhighlighted_edges = False
+    
     def highlight_path(self, path: 'list[int]'):
         node_names = [self.get_node_from_matrix(index) for index in path]
         print(node_names)
@@ -124,4 +152,5 @@ class NodeManager:
             node.highlight = False
         for edge in self.edges.values():
             edge.highlight = False
+    
             

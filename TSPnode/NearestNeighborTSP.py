@@ -91,7 +91,6 @@ def solve(node_manager: NodeManager) -> None:
 
         # If there are any unvisited cities left, repeat the previous step.
 
-
     # Print the path.
     print(path)
 
@@ -101,6 +100,10 @@ def solve(node_manager: NodeManager) -> None:
     
     # Print a comparison between the best known solution and the current solution
     print(MatrixToolsTSP.compare_best_solution(node_manager.best_solution_weight, cost))
+    
+    # TEMP TODO calculating and setting distance on the spot
+    # this is not the right place to be doing this however
+    node_manager.scene.distance_result.config(text=f"Distance: {cost:.2f}")
 
     # Highlight and draw the path in the NodeManager object.
     MatrixToolsTSP.highlight_and_draw(node_manager, path)
