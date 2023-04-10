@@ -10,6 +10,7 @@ import BruteForceTSP
 import MatrixToolsTSP
 import SimulatedAnnealing
 import MatrixToolsTSP
+import Genetic
 
 class TSPApplication:
     """Application is in charge of handling the SolutuionManager, NodeManager,
@@ -67,6 +68,7 @@ class TSPApplication:
             BruteForceTSP.solve, "Brute force")
         self.solution_manager.add_command(
             SimulatedAnnealing.simulated_annealing, "Simulated Annealing")
+        self.solution_manager.add_command(Genetic.genetic_algorithm, "Genetics")
 
     def solve_button_event(self):
         """Event function that will get called on a "press solve button"
