@@ -3,6 +3,8 @@ import NearestNeighborTSP
 import BruteForceTSP
 import MatrixToolsTSP
 import SimulatedAnnealing
+import Genetic
+import RL
 
 node_manager = NodeManager()
 
@@ -14,8 +16,10 @@ def main():
         NearestNeighborTSP.solve, "Nearest Neighbor")
     node_manager.assign_solve_command(BruteForceTSP.solve, "Brute force")
     node_manager.assign_solve_command(SimulatedAnnealing.simulated_annealing, "Simulated Annealing")
+    node_manager.assign_solve_command(Genetic.genetic_algorithm, "Genetics")
+    node_manager.assign_solve_command(RL.ReinforcementLearning, "Reinforcement Learning")
 
-    node_manager.generate_graph(MatrixToolsTSP.graph7)
+    node_manager.generate_graph(MatrixToolsTSP.graph20)
     node_manager.best_solution_weight = MatrixToolsTSP.graph7_best_distance
 
     node_manager.draw()
