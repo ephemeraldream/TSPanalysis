@@ -21,7 +21,7 @@ from MatrixToolsTSP import calculate_cost, calculate_circuit_cost
 import MatrixToolsTSP
 
 
-def solve(node_manager: NodeManager) -> None:
+def solve(node_manager: NodeManager) -> list:
     """Solve the travelling salesman problem using a brute-force approach
     (assuming all nodes have edges to all other nodes). Update the result to
     the GUI.
@@ -78,22 +78,4 @@ def solve(node_manager: NodeManager) -> None:
             best_path = list(perm)
             best_cost = cost
 
-    # Print the best path.
-    print(best_path)
-
-    # Calculate and print the cost of the best path.
-    cost = calculate_circuit_cost(matrix, best_path)
-    print(cost)
-    
-    # Print a comparison between the best known solution and the current solution
-    print(MatrixToolsTSP.compare_best_solution(node_manager.best_solution_weight, cost))
-    
-    # TEMP TODO calculating and setting distance on the spot
-    # this is not the right place to be doing this however
-    node_manager.scene.distance_result.config(text=f"Distance: {cost:.2f}")
-
-    # Highlight and draw the best path in the NodeManager object.
-    MatrixToolsTSP.highlight_and_draw(node_manager, best_path)
-
-    # Print a message indicating that the problem has been solved.
-    print("Solved!")
+    return best_path

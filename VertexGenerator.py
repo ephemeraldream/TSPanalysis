@@ -4,7 +4,7 @@ import math
 import csv
 
 def main():
-    points_and_solutions = generate_points_and_paths(1000, 6, 0)
+    points_and_solutions = generate_points_and_paths(32000, 6, 0)
     print(len(str(points_and_solutions)))
     filename = "points_solutions.csv"
     print("Expanding data into comma separeted list...")

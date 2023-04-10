@@ -1,6 +1,7 @@
 import random
 import numpy as np
 from NodeManager import NodeManager
+from Display import Display
 
 def calculate_cost(matrix, path) -> float:
     total_cost = 0
@@ -15,11 +16,6 @@ def calculate_circuit_cost(matrix, path) -> float:
     if path[len(path) - 1] != path[0]:
         total_cost += matrix[path[len(path) - 1]][path[0]]
     return total_cost
-
-def highlight_and_draw(node_manager: NodeManager, path: 'list[int]'):
-    node_manager.unhighligh_all()
-    node_manager.highlight_path(path)
-    node_manager.draw()
 
 def compare_best_solution(best_weight: float, current_weight: float) -> str:
     if best_weight is None:
@@ -36,6 +32,27 @@ def pretty_print(matrix: 'list[list[float]]'):
     print(np.array2string(np_matrix, formatter={
           'float_kind': '{0:.1f}'.format}))
 
+def display_solution(node_manager: NodeManager, display: Display, path: 'list[int]', cost: float):
+    # Print the best path and its cost.
+    print(path)
+    print(cost)
+    
+    # Print a comparison between the best known solution and the current solution
+    # TODO currently disabled, may want to implement Held-Karp first!!!
+    # print(compare_best_solution(node_manager.best_solution_weight, cost))
+    
+    # TEMP TODO calculating and setting distance on the spot
+    # this is not the right place to be doing this however
+    display.distance_result.config(text=f"Distance: {cost:.2f}")
+
+    # Highlight and draw the best path in the NodeManager object.
+    highlight_and_draw(node_manager, display, path)
+
+def highlight_and_draw(node_manager: NodeManager, display: Display, path: 'list[int]'):
+    node_manager.unhighligh_all()
+    node_manager.highlight_path(path)
+    display.draw_nodes(node_manager.nodes, node_manager.edges)
+    
 graph3 = ((100, 100),
           (150, 100),
           (100, 150))
