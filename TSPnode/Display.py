@@ -16,6 +16,10 @@ class Display():
         self._instantiate_weight_label()
         self._instantiate_algorithm_dropdown()
         self._instantiate_highlight_toggle()
+        self._instantiate_node_count_box()
+        self._instantiate_seed_val_entry()
+        
+        self.regen_nodes_request = None
 
     def mainloop(self):
         self.window.mainloop()
@@ -51,14 +55,14 @@ class Display():
 
     def _instantiate_weight_label(self):
         self.distance_result = tk.Label(
-            self._form_frame, text="Hello, world!", width=40)
+            self._form_frame, text="Hello, world!", width=20)
         self.distance_result.pack(side=tk.LEFT, padx=5, pady=5)
 
     def _instantiate_algorithm_dropdown(self):
         self.selected_option = tk.StringVar(value="Select Algo")
         self.dropdown_menu = tk.OptionMenu(
             self._form_frame, self.selected_option, "Select Algo")
-        self.dropdown_menu.config(width=30)
+        self.dropdown_menu.config(width=18)
         self.dropdown_menu.pack(side=tk.LEFT, padx=5, pady=5)
 
     def _instantiate_highlight_toggle(self):
@@ -66,6 +70,47 @@ class Display():
         self.toggle_highlight = tk.Button(
             self._form_frame, text="Toggle unhighlighted edges", command=self.toggle_unhighlighted_edges)
         self.toggle_highlight.pack(side=tk.LEFT, padx=5, pady=5)
+    
+    def _instantiate_node_count_box(self):
+        self._default_node_text = tk.StringVar()
+        self._default_node_text.set("node count (default 6)")
+        def focus_in(event):
+            if self._default_node_text.get() == "node count (default 6)":
+                self._default_node_text.set("")
+                self._node_val_entry.config(foreground="black")
+        def focus_out(event):
+            if self._default_node_text.get() == "":
+                self._default_node_text.set("node count (default 6)")
+                self._node_val_entry.config(foreground="gray")
+        def on_enter_pressed(event):
+            self.regen_nodes_request(count=int(self._node_val_entry.get()))
+        self._node_val_entry = tk.Entry(self._form_frame, textvariable=self._default_node_text)
+        self._node_val_entry.config(foreground="gray")
+        self._node_val_entry.bind("<FocusIn>", focus_in)
+        self._node_val_entry.bind("<FocusOut>", focus_out)
+        self._node_val_entry.bind("<Return>", on_enter_pressed)
+        self._node_val_entry.pack(side=tk.LEFT, padx=5, pady=5)
+        
+    def _instantiate_seed_val_entry(self):
+        self._default_seed_text = tk.StringVar()
+        self._default_seed_text.set("seed (default 0)")
+        def focus_in(event):
+            if self._default_seed_text.get() == "seed (default 0)":
+                self._default_seed_text.set("")
+                self._seed_val_entry.config(foreground="black")
+        def focus_out(event):
+            if self._default_seed_text.get() == "":
+                self._default_seed_text.set("seed (default 0)")
+                self._seed_val_entry.config(foreground="gray")
+        def on_enter_pressed(event):
+            self.regen_nodes_request(seed=int(self._seed_val_entry.get()))
+        self._seed_val_entry = tk.Entry(self._form_frame, textvariable=self._default_seed_text)
+        self._seed_val_entry.config(foreground="gray")
+        self._seed_val_entry.bind("<FocusIn>", focus_in)
+        self._seed_val_entry.bind("<FocusOut>", focus_out)
+        self._seed_val_entry.bind("<Return>", on_enter_pressed)
+        self._seed_val_entry.pack(side=tk.LEFT, padx=5, pady=5)
+        
 
     def _scroll_event(self, event):
         x_pos, _ = self.canvas.xview()

@@ -11,8 +11,6 @@ import MatrixToolsTSP
 import SimulatedAnnealing
 import MatrixToolsTSP
 
-NODES = 50
-
 class TSPApplication:
     """Application is in charge of handling the SolutuionManager, NodeManager,
         and the Display, acting as a communication bridge between the three. 
@@ -24,16 +22,17 @@ class TSPApplication:
         self.display = Display()
         self.node_manager = NodeManager()
         self.solution_manager = SolutionManager()
+        
+        self.seed = 0
+        self.node_count = 6
 
         self.add_all_commands()
         self.display.assign_solve_options(
             self.solution_manager.get_all_command_names())
         self.display.submit_button.configure(command=self.solve_button_event)
+        self.display.regen_nodes_request = self.handle_regen_nodes_request
 
-        if NODES > 16:
-            self.display.show_unhighlighted_edges = False
-
-        self.node_manager.generate_random_graph(0, NODES)
+        self.generate_nodes(self.seed, self.node_count)
 
         self.draw_nodes()
 
@@ -43,6 +42,12 @@ class TSPApplication:
             through user events.
         """
         self.display.mainloop()
+    
+    def generate_nodes(self, seed: int, count: int):
+        self.node_manager.delete_all_nodes()
+        if self.node_count > 16:
+            self.display.show_unhighlighted_edges = False
+        self.node_manager.generate_random_graph(seed, count)
 
     def draw_nodes(self):
         """Draw nodes and edges to the canvas of display using available
@@ -86,4 +91,12 @@ class TSPApplication:
         MatrixToolsTSP.display_solution(
             self.node_manager, self.display, path, cost)
 
+    def handle_regen_nodes_request(self, seed: int = None, count: int = None):
+        if isinstance(seed, int):
+            self.seed = seed
+        if isinstance(count, int):
+            self.node_count = count
+            
+        self.generate_nodes(self.seed, self.node_count)
+        self.draw_nodes()
     pass

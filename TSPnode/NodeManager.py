@@ -73,6 +73,10 @@ class NodeManager:
             return self.edges[key]
         else:
             return None
+    
+    def delete_all_nodes(self):
+        self.nodes = dict()
+        self.edges = dict()
 
     def generate_graph(self, coordinates: 'list[tuple]', length=-1):
         name = ord('a')
