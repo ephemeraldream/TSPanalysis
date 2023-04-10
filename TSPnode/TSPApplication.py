@@ -47,6 +47,8 @@ class TSPApplication:
         self.node_manager.delete_all_nodes()
         if self.node_count > 16:
             self.display.show_unhighlighted_edges = False
+        else:
+            self.display.show_unhighlighted_edges = True
         self.node_manager.generate_random_graph(seed, count)
 
     def draw_nodes(self):
