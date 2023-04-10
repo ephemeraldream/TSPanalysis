@@ -115,8 +115,6 @@ class NodeManager:
 
         self.generate_all_edges()
 
-        if length > 16:
-            self.display.show_unhighlighted_edges = False
 
     def highlight_path(self, path: 'list[int]'):
         node_names = [self.get_node_from_matrix(index) for index in path]

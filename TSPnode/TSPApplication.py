@@ -11,12 +11,14 @@ import MatrixToolsTSP
 import SimulatedAnnealing
 import MatrixToolsTSP
 
+NODES = 50
 
 class TSPApplication:
     """Application is in charge of handling the SolutuionManager, NodeManager,
         and the Display, acting as a communication bridge between the three. 
         It is also responsible for all the event handling of the application.
     """
+    
 
     def __init__(self):
         self.display = Display()
@@ -28,7 +30,10 @@ class TSPApplication:
             self.solution_manager.get_all_command_names())
         self.display.submit_button.configure(command=self.solve_button_event)
 
-        self.node_manager.generate_random_graph(0, 6)
+        if NODES > 16:
+            self.display.show_unhighlighted_edges = False
+
+        self.node_manager.generate_random_graph(0, NODES)
 
         self.draw_nodes()
 
