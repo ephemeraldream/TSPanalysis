@@ -41,7 +41,7 @@ def update(Q, eucs, used, path, eps, gamma, learning_rate, total):
     return Q
 
 
-def ReinforcementLearning(node_manager: NodeManager):
+def ReinforcementLearning(node_manager: NodeManager) -> 'list[int]':
     node_manager.generate_matrix()
     eps = 0.95,
     gamma = 0.95,
@@ -71,13 +71,14 @@ def ReinforcementLearning(node_manager: NodeManager):
         used[:] = True
     path = compute_path(Q)
     path = [int(i) for i in path]
-    print(path)
-    final_distance = calculate_circuit_cost(matrix, path)
-    print(final_distance)
-    another_dist = calculate_circuit_cost(matrix, path)
-    print(another_dist)
-    print(compare_best_solution(node_manager.best_solution_weight, calculate_circuit_cost(matrix, path)))
-    highlight_and_draw(node_manager, list(path))
+    return path
+    # print(path)
+    # final_distance = calculate_circuit_cost(matrix, path)
+    # print(final_distance)
+    # another_dist = calculate_circuit_cost(matrix, path)
+    # print(another_dist)
+    # print(compare_best_solution(node_manager.best_solution_weight, calculate_circuit_cost(matrix, path)))
+    # highlight_and_draw(node_manager, list(path))
 
 
 def maximization(Q: list, listed: int, passed: list):
