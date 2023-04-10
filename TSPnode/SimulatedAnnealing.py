@@ -10,7 +10,7 @@ from NearestNeighborTSP import solve
 from BruteForceTSP import solve
 
 
-def simulated_annealing(node_manager: NodeManager):
+def simulated_annealing(node_manager: NodeManager) -> list:
     temperature: float = 1000
     iters: int = 1000
     gamma: float = 0.95
@@ -22,7 +22,8 @@ def simulated_annealing(node_manager: NodeManager):
     for i in range(iters):
         new_nodes = nodes.copy()
         swap_random(new_nodes)
-        temp_distance = MatrixToolsTSP.calculate_circuit_cost(matrix, new_nodes)
+        temp_distance = MatrixToolsTSP.calculate_circuit_cost(
+            matrix, new_nodes)
         if best_distance > temp_distance:
             nodes = new_nodes.copy()
             best_distance = temp_distance
@@ -32,27 +33,10 @@ def simulated_annealing(node_manager: NodeManager):
                 nodes = new_nodes.copy()
                 best_distance = temp_distance
         temperature = freezing(temperature, gamma)
-    print(nodes)
-    cost = MatrixToolsTSP.calculate_circuit_cost(matrix, nodes)
-    print(cost)
-    print(MatrixToolsTSP.compare_best_solution(node_manager.best_solution_weight, cost))
-    
-    # TEMP TODO calculating and setting distance on the spot
-    # this is not the right place to be doing this however
-    node_manager.scene.distance_result.config(text=f"Distance: {cost:.2f}")
 
-    # Highlight and draw the best path in the NodeManager object.
-    MatrixToolsTSP.highlight_and_draw(node_manager, nodes)
+    # Calculate and print the cost of the best path.
 
-    print("Solved!")
-
-
-
-
-
-
-
-
+    return nodes
 
 
 def trigger(new: float, old: float, temperature: float):
@@ -80,4 +64,3 @@ graph7 = ((340.35029115373504, 291.9911036284341),
           (155.10029229106644, 205.99512383080938),
           (236.62287527731527, 191.59689495925704),
           (80.57511663571202, 131.04706564193646))
-

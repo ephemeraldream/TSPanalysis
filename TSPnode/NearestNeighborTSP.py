@@ -31,7 +31,7 @@ import MatrixToolsTSP
 
 
 # This function takes a NodeManager object as an argument and returns None.
-def solve(node_manager: NodeManager) -> None:
+def solve(node_manager: NodeManager) -> list:
     """Solve the travelling salesman problem using a nearest-neighbor approach
     (assuming all nodes have edges to all other nodes). Update the result to
     the GUI.
@@ -91,22 +91,4 @@ def solve(node_manager: NodeManager) -> None:
 
         # If there are any unvisited cities left, repeat the previous step.
 
-    # Print the path.
-    print(path)
-
-    # Calculate and print the cost of the path.
-    cost = calculate_circuit_cost(matrix, path)
-    print(cost)
-    
-    # Print a comparison between the best known solution and the current solution
-    print(MatrixToolsTSP.compare_best_solution(node_manager.best_solution_weight, cost))
-    
-    # TEMP TODO calculating and setting distance on the spot
-    # this is not the right place to be doing this however
-    node_manager.scene.distance_result.config(text=f"Distance: {cost:.2f}")
-
-    # Highlight and draw the path in the NodeManager object.
-    MatrixToolsTSP.highlight_and_draw(node_manager, path)
-
-    # Print a message indicating that the problem has been solved.
-    print("Solved!")
+    return path
