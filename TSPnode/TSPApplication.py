@@ -5,8 +5,9 @@
 from Display import Display
 from NodeManager import NodeManager
 from SolutionManager import SolutionManager
-import NearestNeighborTSP
 import BruteForceTSP
+import NearestNeighborTSP
+import NearestNeighbor2optTSP
 import MatrixToolsTSP
 import SimulatedAnnealing
 import MatrixToolsTSP
@@ -27,6 +28,9 @@ class TSPApplication:
         
         self.seed = 0
         self.node_count = 6
+        self.last_command = None
+        self.solve_count = 0
+        self.average = 0
 
         self.add_all_commands()
         self.display.assign_solve_options(
@@ -64,9 +68,13 @@ class TSPApplication:
         """Manually add various commands to SolutionManager."""
         # TODO, maybe this should be moved to main?
         self.solution_manager.add_command(
+            BruteForceTSP.solve, "Brute force")
+        self.solution_manager.add_command(
             NearestNeighborTSP.solve, "Nearest Neighbor")
         self.solution_manager.add_command(
-            BruteForceTSP.solve, "Brute force")
+            NearestNeighbor2optTSP.solve, "Nearest Neighbor (2-opt)"
+        )
+        
         self.solution_manager.add_command(
             SimulatedAnnealing.simulated_annealing, "Simulated Annealing")
         self.solution_manager.add_command(Genetic.genetic_algorithm, "Genetics")
@@ -79,7 +87,16 @@ class TSPApplication:
         """
         solve_func = self.solution_manager.get_command(
             self.display.selected_option.get())
+        if solve_func != self.last_command:
+            self.average = 0
+            self.solve_count = 0
+            self.display.remove_average_label()
         path = solve_func(self.node_manager)
+        cost = MatrixToolsTSP.calculate_circuit_cost(self.node_manager.generate_matrix(), path)
+        self.solve_count += 1
+        self.average = (self.average * (self.solve_count - 1) + cost)/self.solve_count
+        self.last_command = solve_func
+        self.display.update_average_label(self.average)
         self.highlight_solution(path)
 
     def highlight_solution(self, path: 'list[int]'):

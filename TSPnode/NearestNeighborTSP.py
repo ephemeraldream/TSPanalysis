@@ -30,7 +30,6 @@ import MatrixToolsTSP
 # http://160592857366.free.fr/joe/ebooks/ShareData/Heuristics%20for%20the%20Traveling%20Salesman%20Problem%20By%20Christian%20Nillson.pdf
 
 
-# This function takes a NodeManager object as an argument and returns None.
 def solve(node_manager: NodeManager) -> list:
     """Solve the travelling salesman problem using a nearest-neighbor approach
     (assuming all nodes have edges to all other nodes). Update the result to

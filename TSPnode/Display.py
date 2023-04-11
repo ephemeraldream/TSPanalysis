@@ -14,6 +14,7 @@ class Display():
         self._instantiate_bottom_form()
         self._instantiate_solve_button()
         self._instantiate_weight_label()
+        self._instantiate_average_label()
         self._instantiate_algorithm_dropdown()
         self._instantiate_highlight_toggle()
         self._instantiate_node_count_box()
@@ -55,8 +56,13 @@ class Display():
 
     def _instantiate_weight_label(self):
         self.distance_result = tk.Label(
-            self._form_frame, text="Hello, world!", width=20)
-        self.distance_result.pack(side=tk.LEFT, padx=5, pady=5)
+            self._form_frame, text="", width=14, font=("Roboto Thin", 11), anchor="w")
+        self.distance_result.pack(side=tk.LEFT, padx=1, pady=5)
+    
+    def _instantiate_average_label(self):
+        self.average_label = tk.Label(
+            self._form_frame, text="Average: ", width=20, font=("Roboto Thin", 7), anchor="w")
+        self.average_label.pack(side=tk.LEFT, padx=1, pady=5)
 
     def _instantiate_algorithm_dropdown(self):
         self.selected_option = tk.StringVar(value="Select Algo")
@@ -271,3 +277,9 @@ class Display():
         for command_str in commands_str:
             menu.add_command(label=command_str, command=tk._setit(
                 self.selected_option, command_str))
+
+    def update_average_label(self, new_average: float):
+        self.average_label.configure(text=f"Average: {new_average:.2f}")
+    
+    def remove_average_label(self):
+        self.average_label.configure(text="Average:")
