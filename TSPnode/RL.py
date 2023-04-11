@@ -3,11 +3,36 @@ import numpy as np
 from MatrixToolsTSP import calculate_circuit_cost, compare_best_solution, highlight_and_draw
 
 
+def maximization(Q: list, listed: int, passed: list):
+    maxima = 0
+    x = np.arange(len(Q))
+    np.random.shuffle(x)
+    submaxima = -np.inf
+    for i in x:
+        if not (passed[i]):
+            continue
+        if Q[listed][i] > submaxima:
+            maxima = i
+            submaxima = Q[listed][i]
+    return maxima, submaxima
+
 
 
 def generate(states, actions):
     Q_matrix = [[0]*states for _ in range(actions)]
     return Q_matrix
+
+
+def compute_path(Q: list):
+    passed = [True for i in range(len(Q))]
+    path = [0 for i in range(len(Q))]
+    passed[0] = False
+    for i in range(1, len(Q)):
+        current = path[i - 1]
+        next, not_used = maximization(Q, int(current), passed)
+        path[i] = next
+        passed[next] = False
+    return path
 
 
 def q_vals(Q_table: list, euc: list):
@@ -46,7 +71,7 @@ def ReinforcementLearning(node_manager: NodeManager) -> 'list[int]':
     eps = 0.95,
     gamma = 0.95,
     learning_rate = 0.2
-    epochs: int = 4000
+    epochs: int = 5000
 
     matrix = node_manager.generate_matrix()
     dist = np.array(matrix)
@@ -81,30 +106,10 @@ def ReinforcementLearning(node_manager: NodeManager) -> 'list[int]':
     # highlight_and_draw(node_manager, list(path))
 
 
-def maximization(Q: list, listed: int, passed: list):
-    maxima = 0
-    x = np.arange(len(Q))
-    np.random.shuffle(x)
-    submaxima = -np.inf
-    for i in x:
-        if not (passed[i]):
-            continue
-        if Q[listed][i] > submaxima:
-            maxima = i
-            submaxima = Q[listed][i]
-    return maxima, submaxima
 
 
-def compute_path(Q: list):
-    passed = [True for i in range(len(Q))]
-    path = [0 for i in range(len(Q))]
-    passed[0] = False
-    for i in range(1, len(Q)):
-        current = path[i - 1]
-        next, not_used = maximization(Q, int(current), passed)
-        path[i] = next
-        passed[next] = False
-    return path
+
+
 
 
 
