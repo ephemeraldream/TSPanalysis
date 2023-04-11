@@ -173,3 +173,6 @@ class NodeManager:
             node.highlight = False
         for edge in self.edges.values():
             edge.highlight = False
+    
+    def get_node_count(self) -> int:
+        return len(self.nodes)

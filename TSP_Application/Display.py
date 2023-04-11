@@ -89,7 +89,15 @@ class Display():
                 self._default_node_text.set("node count (default 6)")
                 self._node_val_entry.config(foreground="gray")
         def on_enter_pressed(event):
-            self.regen_nodes_request(count=int(self._node_val_entry.get()))
+            seed = None
+            count = None
+            try:
+                seed=int(self._seed_val_entry.get())
+            except: pass
+            try:   
+                count=int(self._node_val_entry.get())
+            except: pass
+            self.regen_nodes_request(seed, count)
         self._node_val_entry = tk.Entry(self._form_frame, textvariable=self._default_node_text)
         self._node_val_entry.config(foreground="gray")
         self._node_val_entry.bind("<FocusIn>", focus_in)
@@ -109,7 +117,15 @@ class Display():
                 self._default_seed_text.set("seed (default 0)")
                 self._seed_val_entry.config(foreground="gray")
         def on_enter_pressed(event):
-            self.regen_nodes_request(seed=int(self._seed_val_entry.get()))
+            seed = None
+            count = None
+            try:
+                seed=int(self._seed_val_entry.get())
+            except: pass
+            try:   
+                count=int(self._node_val_entry.get())
+            except: pass
+            self.regen_nodes_request(seed, count)
         self._seed_val_entry = tk.Entry(self._form_frame, textvariable=self._default_seed_text)
         self._seed_val_entry.config(foreground="gray")
         self._seed_val_entry.bind("<FocusIn>", focus_in)

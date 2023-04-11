@@ -81,12 +81,24 @@ def solve(node_manager: NodeManager) -> list:
         # Find the nearest unvisited city to the current city.
         nearest_unvisited_city = None
         nearest_unvisited_weight = math.inf
+        last_city = curr_city
         for i in range(len(matrix)):
-            if curr_city != i and not visited_cities[i] and matrix[curr_city][i] < nearest_unvisited_weight:
+            temp = matrix[last_city][i]
+            if last_city != i and not visited_cities[i] and edge_distance(matrix, last_city, i) < nearest_unvisited_weight:
                 nearest_unvisited_city = i
+                nearest_unvisited_weight = edge_distance(matrix, last_city, i)
         path.append(nearest_unvisited_city)
         visited_cities[nearest_unvisited_city] = True
+        curr_city = nearest_unvisited_city
 
         # If there are any unvisited cities left, repeat the previous step.
 
     return path
+
+def edge_distance(matrix, fromIndex: int, toIndex: int) -> int:
+    """Helper func which gets distance between two nodes (with wrap around
+    feature)
+    """
+    fromIndex %= len(matrix)
+    toIndex %= len(matrix)
+    return matrix[fromIndex][toIndex]
