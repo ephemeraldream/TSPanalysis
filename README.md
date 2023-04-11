@@ -9,6 +9,8 @@ get a general sense of speed by seeing that some algorithms are instant while
 others may take a few seconds (The runtime analysis is covered in the paper in
 more detail).
 
+![The GUI after brute-force solving using default settings](example.png)
+
 ## Instructions
 
 To run the the program run Main.py or the TSP_ANALYSIS.exe.
