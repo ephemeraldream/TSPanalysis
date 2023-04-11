@@ -1,7 +1,7 @@
 import random
 import numpy as np
-from NodeManager import NodeManager
-from Display import Display
+from TSP_Application.NodeManager import NodeManager
+from TSP_Application.Display import Display
 
 def calculate_cost(matrix, path) -> float:
     total_cost = 0

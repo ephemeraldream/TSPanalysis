@@ -1,13 +1,12 @@
 import math
-from NodeManager import NodeManager
-from Node import Node
-from Edge import Edge
+from TSP_Application.NodeManager import NodeManager
+from TSP_Application.Node import Node
+from TSP_Application.Edge import Edge
 import numpy as np
-import itertools
-import MatrixToolsTSP
+from TSP_Application.MatrixToolsTSP import calculate_circuit_cost
 import random
-from NearestNeighborTSP import solve
-from BruteForceTSP import solve
+from TSP_Application.TSP_Solvers.NearestNeighborTSP import solve
+from TSP_Application.TSP_Solvers.BruteForceTSP import solve
 
 
 def simulated_annealing(node_manager: NodeManager) -> list:
@@ -18,11 +17,11 @@ def simulated_annealing(node_manager: NodeManager) -> list:
 
     num_nodes = len(matrix)
     nodes = list(range(num_nodes))
-    best_distance = MatrixToolsTSP.calculate_circuit_cost(matrix, nodes)
+    best_distance = calculate_circuit_cost(matrix, nodes)
     for i in range(iters):
         new_nodes = nodes.copy()
         swap_random(new_nodes)
-        temp_distance = MatrixToolsTSP.calculate_circuit_cost(
+        temp_distance = calculate_circuit_cost(
             matrix, new_nodes)
         if best_distance > temp_distance:
             nodes = new_nodes.copy()

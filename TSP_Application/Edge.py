@@ -1,5 +1,5 @@
 import math
-from Node import Node
+from TSP_Application.Node import Node
 
 
 class Edge:

@@ -1,6 +1,6 @@
-from NodeManager import NodeManager
+from TSP_Application.NodeManager import NodeManager
 import numpy as np
-from MatrixToolsTSP import calculate_circuit_cost, compare_best_solution, highlight_and_draw
+from TSP_Application.MatrixToolsTSP import calculate_circuit_cost, compare_best_solution, highlight_and_draw
 
 
 

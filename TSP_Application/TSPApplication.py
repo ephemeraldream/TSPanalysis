@@ -2,17 +2,11 @@
     and the Display, acting as a communication bridge between the three. 
     It is also responsible for all the event handling of the application.
     """
-from Display import Display
-from NodeManager import NodeManager
-from SolutionManager import SolutionManager
-import BruteForceTSP
-import NearestNeighborTSP
-import NearestNeighbor2optTSP
-import MatrixToolsTSP
-import SimulatedAnnealing
-import MatrixToolsTSP
-import Genetic
-import RL
+from TSP_Application.MatrixToolsTSP import display_solution
+from TSP_Application.Display import Display
+from TSP_Application.NodeManager import NodeManager
+from TSP_Application.SolutionManager import SolutionManager
+from TSP_Application.MatrixToolsTSP import calculate_circuit_cost
 
 class TSPApplication:
     """Application is in charge of handling the SolutuionManager, NodeManager,
@@ -32,7 +26,7 @@ class TSPApplication:
         self.solve_count = 0
         self.average = 0
 
-        self.add_all_commands()
+        self.solution_manager.add_all_commands()
         self.display.assign_solve_options(
             self.solution_manager.get_all_command_names())
         self.display.submit_button.configure(command=self.solve_button_event)
@@ -64,21 +58,7 @@ class TSPApplication:
         self.display.draw_nodes(self.node_manager.nodes,
                                 self.node_manager.edges)
 
-    def add_all_commands(self):
-        """Manually add various commands to SolutionManager."""
-        # TODO, maybe this should be moved to main?
-        self.solution_manager.add_command(
-            BruteForceTSP.solve, "Brute force")
-        self.solution_manager.add_command(
-            NearestNeighborTSP.solve, "Nearest Neighbor")
-        self.solution_manager.add_command(
-            NearestNeighbor2optTSP.solve, "Nearest Neighbor (2-opt)"
-        )
-        
-        self.solution_manager.add_command(
-            SimulatedAnnealing.simulated_annealing, "Simulated Annealing")
-        self.solution_manager.add_command(Genetic.genetic_algorithm, "Genetics")
-        self.solution_manager.add_command(RL.ReinforcementLearning, "Reinforcement Learning")
+
 
     def solve_button_event(self):
         """Event function that will get called on a "press solve button"
@@ -92,7 +72,7 @@ class TSPApplication:
             self.solve_count = 0
             self.display.remove_average_label()
         path = solve_func(self.node_manager)
-        cost = MatrixToolsTSP.calculate_circuit_cost(self.node_manager.generate_matrix(), path)
+        cost = calculate_circuit_cost(self.node_manager.generate_matrix(), path)
         self.solve_count += 1
         self.average = (self.average * (self.solve_count - 1) + cost)/self.solve_count
         self.last_command = solve_func
@@ -109,9 +89,9 @@ class TSPApplication:
             it is assumed that the end node will connect back to the start node
             (because it represents a circuit).
         """
-        cost = MatrixToolsTSP.calculate_circuit_cost(
+        cost = calculate_circuit_cost(
             self.node_manager.generate_matrix(), path)
-        MatrixToolsTSP.display_solution(
+        display_solution(
             self.node_manager, self.display, path, cost)
 
     def handle_regen_nodes_request(self, seed: int = None, count: int = None):

@@ -24,28 +24,28 @@
 import itertools
 import random
 import math
-from NodeManager import NodeManager
-from MatrixToolsTSP import calculate_cost, calculate_circuit_cost
-import NearestNeighborTSP
-import MatrixToolsTSP
+from TSP_Application.NodeManager import NodeManager
+from TSP_Application.MatrixToolsTSP import calculate_cost, calculate_circuit_cost
+import TSP_Application.TSP_Solvers.NearestNeighborTSP
+import TSP_Application.MatrixToolsTSP
 # currently following the pdf below
 # http://160592857366.free.fr/joe/ebooks/ShareData/Heuristics%20for%20the%20Traveling%20Salesman%20Problem%20By%20Christian%20Nillson.pdf
 
 
 def solve(node_manager: NodeManager) -> list:
     
-    # reuse nearest neighbor
+    # reuse nearest neighbor... costs O(n)
     matrix = node_manager.generate_matrix()
-    path = NearestNeighborTSP.solve(node_manager)
-    cost = MatrixToolsTSP.calculate_circuit_cost(matrix, path)
+    path = TSP_Application.TSP_Solvers.NearestNeighborTSP.solve(node_manager)
+    cost = TSP_Application.MatrixToolsTSP.calculate_circuit_cost(matrix, path)
     
     # now try 2-opt algorithm to re-choose paths to see if there is a better
-    # solution
+    # solution. This costs O(n^k) where k is 2. So the time complexity is O(n^2)
     
     # len(path) choose 2 (nCr)
     for swap_index_pair in itertools.combinations(range(len(path)),2):
         swap(path, swap_index_pair[0], swap_index_pair[1])
-        new_cost = MatrixToolsTSP.calculate_circuit_cost(matrix, path)
+        new_cost = TSP_Application.MatrixToolsTSP.calculate_circuit_cost(matrix, path)
         if new_cost >= cost:
             swap(path, swap_index_pair[0], swap_index_pair[1])
         

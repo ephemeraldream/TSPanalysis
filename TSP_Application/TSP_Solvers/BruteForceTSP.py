@@ -16,9 +16,8 @@ Raises:
         (it would take too long).
 """
 import itertools
-from NodeManager import NodeManager
-from MatrixToolsTSP import calculate_cost, calculate_circuit_cost
-import MatrixToolsTSP
+from TSP_Application.NodeManager import NodeManager
+from TSP_Application.MatrixToolsTSP import calculate_cost, calculate_circuit_cost
 
 
 def solve(node_manager: NodeManager) -> list:

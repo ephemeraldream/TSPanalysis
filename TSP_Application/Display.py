@@ -1,7 +1,7 @@
 import tkinter as tk
 from typing import Callable
-from Node import Node
-from Edge import Edge
+from TSP_Application.Node import Node
+from TSP_Application.Edge import Edge
 
 
 class Display():

@@ -1,13 +1,12 @@
 import math
-from NodeManager import NodeManager
-from Node import Node
-from Edge import Edge
+from TSP_Application.NodeManager import NodeManager
+from TSP_Application.Node import Node
+from TSP_Application.Edge import Edge
 import numpy as np
-import itertools
-from MatrixToolsTSP import calculate_circuit_cost, compare_best_solution, highlight_and_draw
+from TSP_Application.MatrixToolsTSP import calculate_circuit_cost, compare_best_solution, highlight_and_draw
 import random
-from NearestNeighborTSP import solve
-from BruteForceTSP import solve
+from TSP_Application.TSP_Solvers.NearestNeighborTSP import solve
+from TSP_Application.TSP_Solvers.BruteForceTSP import solve
 import pandas as pd
 
 def genetic_algorithm(node_manager: NodeManager) -> 'list[int]':

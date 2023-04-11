@@ -23,9 +23,8 @@
 """
 import random
 import math
-from NodeManager import NodeManager
-from MatrixToolsTSP import calculate_cost, calculate_circuit_cost
-import MatrixToolsTSP
+from TSP_Application.NodeManager import NodeManager
+from TSP_Application.MatrixToolsTSP import calculate_cost, calculate_circuit_cost
 # currently following the pdf below
 # http://160592857366.free.fr/joe/ebooks/ShareData/Heuristics%20for%20the%20Traveling%20Salesman%20Problem%20By%20Christian%20Nillson.pdf
 

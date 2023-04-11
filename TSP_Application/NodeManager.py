@@ -6,8 +6,8 @@
     communicate to the display about the nodes/edges.
     """
 import math
-from Node import Node
-from Edge import Edge
+from TSP_Application.Node import Node
+from TSP_Application.Edge import Edge
 from typing import Callable
 import random
 
