@@ -5,109 +5,109 @@ import TSP_Application.Node
 from TSP_Application.NodeManager import NodeManager
 
 
-class Environment:
-    def __init__(self, distance_matrix):
+
+
+class Colony:
+    def __init__(self, total, ans, distance_matrix):
+        self.total = total
+        self.ans = ans
         self.distance_matrix = distance_matrix
         self.pheromones = [[1]*len(distance_matrix) for i in range(len(distance_matrix))]
 
 
-class Ant:
-    def __init__(self, env:Environment):
-        self.env = env
-        self.own_pheromone = []
-
-
-        self.non_stop = [i for i in range(len(env.distance_matrix))]
-        self.stop = []
-        self.non_stop.remove(0)
-        self.stop.append(0)
-        self.next = 0
-        self.total = 0
-
-    def upgrade_ant(self):
-        self.own_pheromone = [[0]*len(self.env.distance_matrix) for i in range(len(self.env.distance_matrix))]
-        for z in range(1, len(self.stop)):
-            j = self.stop[z]
-            i = self.stop[z-1]
-            self.own_pheromone[i][j] = 1 / self.total #self.env.distance_matrix[i][j]
-
-    def next_motion(self):
-        total = 0
-        for var in self.non_stop:
-            total += self.env.pheromones[self.next][var] * self.env.pheromones[self.next][var]
-        p_mat = [0 for i in range(len(self.env.pheromones))]
-        for var in range(len(p_mat)):
-            try:
-                self.non_stop.index(var)
-                p_mat[var] = self.env.pheromones[self.next][var] * self.env.pheromones[self.next][var] / total
-            except ValueError:
-                pass
-        chosen = 0
-        ran = random.random()
-        for var, p in enumerate(p_mat):
-            ran -= p
-            if ran <= 0:
-                chosen = var
-                break
-        self.stop.append(chosen)
-        self.non_stop.remove(chosen)
-        self.total += self.env.distance_matrix[self.next][chosen]
-        self.next = chosen
-
-
-class Colony:
-    def __init__(self, total, ans):
-        self.total = total
-        self.ans = ans
-
-
-    def train(self, env: Environment, ants):
-        for i in range(len(env.pheromones)):
-            for j in range(len(env.pheromones)):
+    def train(self, ants):
+        """
+        we update a particular
+        :param env:
+        :param ants:
+        :return:
+        """
+        for i in range(len(self.pheromones)):
+            for j in range(len(self.pheromones)):
                 for ant in ants:
-                    env.pheromones[i][j] += ant.own_pheromone[i][j]
+                    self.pheromones[i][j] += ant.own_pheromone[i][j]
 
 
-    def train_all(self, env: Environment):
-        cost = np.inf
-        path = []
+    def train_all(self):
+        cost,path = np.inf, []
         for anss in range(self.ans):
-            objs = [Ant(self, env) for i in range(self.total)]
+            objs = [Ant(self) for i in range(self.total)]
             for ant in objs:
-                for i in range(len(env.pheromones)-1):
+                for i in range(len(self.pheromones)-1):
                     ant.next_motion()
-                ant.total += env.distance_matrix[ant.stop[-1]][ant.stop[0]]
+                ant.total += self.distance_matrix[ant.stop[-1]][ant.stop[0]]
                 if ant.total < cost:
-                    cost = ant.total
-                    path = ant.stop
-                ant.upgrade_ant()
-            self.train(env, objs)
+                    cost, path = ant.total, ant.stop
+                ant.move_ant()
+            self.train(objs)
         return path, cost
 
 
 
+class Ant:
+    def __init__(self, colony: Colony):
+        self.total = 0
+        self.colony = colony
+        self.own_pheromone = []
+        self.non_stop = [i for i in range(len(colony.distance_matrix))]
+        self.stop = []
+        self.non_stop.remove(0)
+        self.stop.append(0)
+        self.next = 0
 
 
+    def next_motion(self):
+        """
+        Here we are throwing an ant to the graph. One by one and then update the matrix.
+        :return: None
+        """
+        u,total = random.random(),0
+        for var in self.non_stop:
+            total += self.colony.pheromones[self.next][var] * self.colony.pheromones[self.next][var]
+        p_mat = [0 for i in range(len(self.colony.pheromones))]
+        for var in range(len(p_mat)):
+            try:
+                self.non_stop.index(var)
+                p_mat[var] = self.colony.pheromones[self.next][var] * self.colony.pheromones[self.next][var] / total
+            except ValueError:
+                pass
+        chosen = 0
+        for var, p in enumerate(p_mat):
+            u -= p
+            if u <= 0:
+                chosen = var
+                break
+        self.stop.append(chosen)  # I use stop and non_stop like a double queue(!) to check the passed edges.
+        self.non_stop.remove(chosen)
+        self.total += self.colony.distance_matrix[self.next][chosen]
+        self.next = chosen
 
 
-
-
-
-
-
-
-
-
+    def move_ant(self):
+        """
+        whenever the ant went all the road,
+        we need to store its pheromones to the right
+        places to update it after.
+        :return:
+        """
+        self.own_pheromone = [[0]*len(self.colony.distance_matrix) for i in range(len(self.colony.distance_matrix))]
+        for z in range(1, len(self.stop)):
+            j,i = self.stop[z], self.stop[z-1]
+            self.own_pheromone[i][j] = 1 / self.total
 
 
 
 
 
 def solve(node_manager: NodeManager) -> 'list[int]':
+    """
+    API for connecting class
+    :param node_manager:
+    :return:
+    """
     matrix = node_manager.generate_matrix()
-    map = Environment(matrix)
-    colony = Colony(1000, 10)
-    path, y = colony.train_all(map)
+    colony = Colony(5000, 10, distance_matrix=matrix)
+    path, y = colony.train_all()
     return path
 
 
