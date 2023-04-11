@@ -119,6 +119,10 @@ class TSPApplication:
             self.seed = seed
         if isinstance(count, int):
             self.node_count = count
+        
+        # should reset averages
+        self.average = 0
+        self.solve_count =0
 
         self.generate_nodes(self.seed, self.node_count)
         self.draw_nodes()
