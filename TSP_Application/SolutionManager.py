@@ -6,6 +6,7 @@ import TSP_Application.TSP_Solvers.NearestNeighbor2optTSP
 import TSP_Application.TSP_Solvers.SimulatedAnnealing
 import TSP_Application.TSP_Solvers.Genetic
 import TSP_Application.TSP_Solvers.RL
+import TSP_Application.TSP_Solvers.AntColony
 
 
 class SolutionManager():
@@ -62,3 +63,6 @@ class SolutionManager():
         self.add_command(
             TSP_Application.TSP_Solvers.RL.ReinforcementLearning,
             "Reinforcement Learning")
+        self.add_command(
+            TSP_Application.TSP_Solvers.AntColony.solve,
+            "Ant Colony")

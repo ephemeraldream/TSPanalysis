@@ -1,8 +1,8 @@
 import random
 
 import numpy as np
-import Node
-from NodeManager import NodeManager
+import TSP_Application.Node
+from TSP_Application.NodeManager import NodeManager
 
 
 class Environment:
@@ -100,32 +100,37 @@ class Ant:
 
 
 
+def solve(node_manager: NodeManager) -> 'list[int]':
+    matrix = node_manager.generate_matrix()
+    map = Environment(matrix)
+    colony = Colony(1000, 10)
+    path, y = colony.train_all(map)
+    return path
 
 
 
+# graph7 = ((340.35029115373504, 291.9911036284341),
+#           (330.546912512813, 50.76377300133961),
+#           (102.02621099177865, 314.0781008584721),
+#           (192.30295951856758, 316.8848105036639),
+#           (155.10029229106644, 205.99512383080938),
+#           (236.62287527731527, 191.59689495925704),
+#           (80.57511663571202, 131.04706564193646))
 
-graph7 = ((340.35029115373504, 291.9911036284341),
-          (330.546912512813, 50.76377300133961),
-          (102.02621099177865, 314.0781008584721),
-          (192.30295951856758, 316.8848105036639),
-          (155.10029229106644, 205.99512383080938),
-          (236.62287527731527, 191.59689495925704),
-          (80.57511663571202, 131.04706564193646))
-
-node_manager = NodeManager()
-for i in range(7):
-    vertex = graph7[i]
-    node_manager.add_node(Node.Node(vertex[0], vertex[1], str(i)))
-
+# node_manager = NodeManager()
+# for i in range(7):
+#     vertex = graph7[i]
+#     node_manager.add_node(Node.Node(vertex[0], vertex[1], str(i)))
 
 
-node_manager.generate_all_edges()
-matrix = node_manager.generate_matrix()
-map = Environment(matrix)
-colony = Colony(1000, 10)
-x, y = colony.train_all(map)
-print(x, y)
-x = 2
+
+# node_manager.generate_all_edges()
+# matrix = node_manager.generate_matrix()
+# map = Environment(matrix)
+# colony = Colony(1000, 10)
+# x, y = colony.train_all(map)
+# print(x, y)
+# x = 2
 
 
 
