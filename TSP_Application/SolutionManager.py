@@ -15,12 +15,26 @@ class SolutionManager():
         self.solver_callables: dict[str, Callable] = {}
 
     def add_command(self, command: Callable, name: str) -> None:
+        """Add a command to the SolutionManager.
+
+        Args:
+            command (Callable): A Python Callable function to store into command.
+            name (str): A name/alias that will refer to an added command.
+        """
         self.solver_callables[name] = command
 
     def remove_command(self, name: str) -> Callable:
+        """Remove a command.
+
+        Args:
+            name (str): Look for a function with this name and remove it.
+
+        Returns:
+            Callable: The removed command.
+        """
         return self.solver_callables.pop(name)
 
-    def get_all_command_names(self):
+    def get_all_command_names(self) -> 'list[str]':
         return self.solver_callables.keys()
 
     def get_command(self, name: str) -> Callable:
@@ -28,9 +42,8 @@ class SolutionManager():
             raise Exception(f"Name \"{name}\" not assigned to any command.")
         return self.solver_callables[name]
 
-    def add_all_commands(self):
-        """Manually add various commands to SolutionManager."""
-        # TODO, maybe this should be moved to main?
+    def add_all_commands(self) -> None:
+        """Manually add various commands."""
         self.add_command(
             TSP_Application.TSP_Solvers.BruteForceTSP.solve,
             "Brute force")

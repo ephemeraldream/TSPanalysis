@@ -12,7 +12,7 @@
         Space complexity: O(n^2)
 
 Raises:
-        Exception: When attempting to solve a matrix bigger than 9
+        Exception: When attempting to solve a matrix bigger than 10
         (it would take too long).
 """
 import itertools
@@ -40,14 +40,14 @@ def solve(node_manager: NodeManager) -> list:
         the solution.
 
     Raises:
-        Exception: When attempting to solve a matrix bigger than 9
+        Exception: When attempting to solve a matrix bigger than 10
         (it would take too long).
     """
-    # Check if the number of nodes in the NodeManager object is greater than 9.
+    # Check if the number of nodes in the NodeManager object is greater than 10.
     # If it is, raise an exception and print a message.
-    if len(node_manager.nodes) > 9:
+    if len(node_manager.nodes) > 10:
         raise Exception(
-            "ABORTING! Cannot feasably solve over 9 nodes \
+            "ABORTING! Cannot feasably solve over 10 nodes \
                 using this approach in a timely manner!")
 
     # Generate a matrix representing the distances 
