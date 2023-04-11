@@ -4,7 +4,6 @@ import TSP_Application.TSP_Solvers.BruteForceTSP
 import TSP_Application.TSP_Solvers.NearestNeighborTSP
 import TSP_Application.TSP_Solvers.NearestNeighbor2optTSP
 import TSP_Application.TSP_Solvers.SimulatedAnnealing
-import TSP_Application.TSP_Solvers.Genetic
 import TSP_Application.TSP_Solvers.RL
 import TSP_Application.TSP_Solvers.AntColony
 
@@ -57,9 +56,6 @@ class SolutionManager():
         self.add_command(
             TSP_Application.TSP_Solvers.SimulatedAnnealing.simulated_annealing,
             "Simulated Annealing")
-        self.add_command(
-            TSP_Application.TSP_Solvers.Genetic.genetic_algorithm,
-            "Genetics")
         self.add_command(
             TSP_Application.TSP_Solvers.RL.ReinforcementLearning,
             "Reinforcement Learning")
