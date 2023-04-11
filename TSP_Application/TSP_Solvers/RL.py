@@ -24,6 +24,12 @@ def generate(states, actions):
 
 
 def compute_path(Q: list):
+    """
+    this function computes the path
+    distance regarding the learning matrix.
+    :param Q:
+    :return:
+    """
     passed = [True for i in range(len(Q))]
     path = [0 for i in range(len(Q))]
     passed[0] = False
@@ -44,7 +50,7 @@ def q_vals(Q_table: list, euc: list):
 def update(Q, eucs, used, path, eps, gamma, learning_rate, total):
     """
     The process of initializing weights.
-
+    Thhen update weight matrix.
     """
     used[0] = False
     for i in range(1, total):
