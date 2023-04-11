@@ -11,40 +11,8 @@ class Environment:
         self.pheromones = [[1]*len(distance_matrix) for i in range(len(distance_matrix))]
 
 
-class Colony:
-    def __init__(self, total, ans):
-        self.total = total
-        self.ans = ans
-
-
-    def train(self, env: Environment, ants):
-        for i in range(len(env.pheromones)):
-            for j in range(len(env.pheromones)):
-                for ant in ants:
-                    env.pheromones[i][j] += ant.own_pheromone[i][j]
-
-
-    def train_all(self, env: Environment):
-        cost = np.inf
-        path = []
-        for anss in range(self.ans):
-            objs = [Ant(self, env=env) for i in range(self.total)]
-            for ant in objs:
-                for i in range(len(env.pheromones)-1):
-                    ant.next_motion()
-                ant.total += env.distance_matrix[ant.stop[-1]][ant.stop[0]]
-                if ant.total < cost:
-                    cost = ant.total
-                    path = ant.stop
-                ant.upgrade_ant()
-            self.train(env, objs)
-        return path, cost
-
-
-
 class Ant:
-    def __init__(self, colony: Colony, env:Environment):
-        self.total = 0
+    def __init__(self, env:Environment):
         self.env = env
         self.own_pheromone = []
 
@@ -54,6 +22,14 @@ class Ant:
         self.non_stop.remove(0)
         self.stop.append(0)
         self.next = 0
+        self.total = 0
+
+    def upgrade_ant(self):
+        self.own_pheromone = [[0]*len(self.env.distance_matrix) for i in range(len(self.env.distance_matrix))]
+        for z in range(1, len(self.stop)):
+            j = self.stop[z]
+            i = self.stop[z-1]
+            self.own_pheromone[i][j] = 1 / self.total #self.env.distance_matrix[i][j]
 
     def next_motion(self):
         total = 0
@@ -79,12 +55,39 @@ class Ant:
         self.next = chosen
 
 
-    def upgrade_ant(self):
-        self.own_pheromone = [[0]*len(self.env.distance_matrix) for i in range(len(self.env.distance_matrix))]
-        for z in range(1, len(self.stop)):
-            j = self.stop[z]
-            i = self.stop[z-1]
-            self.own_pheromone[i][j] = 1 / self.total #self.env.distance_matrix[i][j]
+class Colony:
+    def __init__(self, total, ans):
+        self.total = total
+        self.ans = ans
+
+
+    def train(self, env: Environment, ants):
+        for i in range(len(env.pheromones)):
+            for j in range(len(env.pheromones)):
+                for ant in ants:
+                    env.pheromones[i][j] += ant.own_pheromone[i][j]
+
+
+    def train_all(self, env: Environment):
+        cost = np.inf
+        path = []
+        for anss in range(self.ans):
+            objs = [Ant(self, env) for i in range(self.total)]
+            for ant in objs:
+                for i in range(len(env.pheromones)-1):
+                    ant.next_motion()
+                ant.total += env.distance_matrix[ant.stop[-1]][ant.stop[0]]
+                if ant.total < cost:
+                    cost = ant.total
+                    path = ant.stop
+                ant.upgrade_ant()
+            self.train(env, objs)
+        return path, cost
+
+
+
+
+
 
 
 
