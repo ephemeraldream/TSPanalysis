@@ -169,9 +169,6 @@ class Display():
                 return
 
         # zoom towards center
-        print("viewport x: " + str(new_x_pos))
-        print("viewport y: " + str(new_x_pos))
-
         self.canvas.configure(scrollregion=(0,
                                             0,
                                             self.viewport_width * self.zoom,
