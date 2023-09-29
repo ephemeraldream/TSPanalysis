@@ -186,8 +186,6 @@ class Display():
         # Calculate the difference in mouse position since last event
         dx = event.x - self.last_mouse_x
         dy = event.y - self.last_mouse_y
-        print("dx: " + str(dx))
-        print("dy: " + str(dy))
 
         # Redraw the canvas with the updated camera position
         self.canvas.xview_scroll(-dx, "units")
