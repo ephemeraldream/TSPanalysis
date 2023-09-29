@@ -7,6 +7,7 @@ from TSP_Application.Display import Display
 from TSP_Application.NodeManager import NodeManager
 from TSP_Application.SolutionManager import SolutionManager
 from TSP_Application.MatrixToolsTSP import calculate_circuit_cost
+import threading
 
 
 class TSPApplication:
@@ -27,6 +28,7 @@ class TSPApplication:
         self.last_command = None
         self.solve_count = 0
         self.average = 0
+        self.currently_solving = False
 
         # prepare event handling of solver functions
         self.solution_manager.add_all_commands()
@@ -74,6 +76,19 @@ class TSPApplication:
             event. Afterwards execute the solution function selected by the
             user. Finally, highlight the solution on the canvas.
         """
+        if (self.currently_solving == True and self.display.selected_option.get() != None):
+            return
+        self.currently_solving = True
+        solvingThread = threading.Thread(
+            target=self.solve_thread, args=(), kwargs={})
+        solvingThread.start()
+
+    def solve_thread(self) -> None:
+        """Event function that will get called on a "press solve button"
+            event. Afterwards execute the solution function selected by the
+            user. Finally, highlight the solution on the canvas. (this method
+            is the other half of solve_button_event() but is threaded)
+        """
         solve_func = self.solution_manager.get_command(
             self.display.selected_option.get())
         if solve_func != self.last_command:
@@ -89,6 +104,7 @@ class TSPApplication:
         self.last_command = solve_func
         self.display.update_average_label(self.average)
         self.highlight_solution(path)
+        self.currently_solving = False
 
     def highlight_solution(self, path: 'list[int]') -> None:
         """Highlight a given solution to the canvas.
@@ -119,10 +135,10 @@ class TSPApplication:
             self.seed = seed
         if isinstance(count, int):
             self.node_count = count
-        
+
         # should reset averages
         self.average = 0
-        self.solve_count =0
+        self.solve_count = 0
 
         self.generate_nodes(self.seed, self.node_count)
         self.draw_nodes()
