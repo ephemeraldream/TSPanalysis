@@ -42,7 +42,7 @@ class Display():
     def _instantiate_events(self):
         self.canvas.bind("<MouseWheel>", self._scroll_event)
         self.canvas.bind("<B1-Motion>", self._drag_camera_event)
-        self.canvas.bind("<ButtonPress>", self._start_drag_camera_event)
+        self.canvas.bind("<Button-1>", self._start_drag_camera_event)
         self.window.protocol("WM_DELETE_WINDOW", self.window.quit)
 
     def _instantiate_bottom_form(self):
@@ -169,6 +169,8 @@ class Display():
                 return
 
         # zoom towards center
+        print("viewport x: " + str(new_x_pos))
+        print("viewport y: " + str(new_x_pos))
 
         self.canvas.configure(scrollregion=(0,
                                             0,
@@ -180,14 +182,15 @@ class Display():
         self.canvas.yview_moveto(new_y_pos/self.viewport_height)
 
     def _start_drag_camera_event(self, event):
-        if event.state == 0x0008 and event.num == 1:  # Left mouse button
-            self.last_mouse_x = event.x
-            self.last_mouse_y = event.y
+        self.last_mouse_x = event.x
+        self.last_mouse_y = event.y
 
     def _drag_camera_event(self, event):
         # Calculate the difference in mouse position since last event
         dx = event.x - self.last_mouse_x
         dy = event.y - self.last_mouse_y
+        print("dx: " + str(dx))
+        print("dy: " + str(dy))
 
         # Redraw the canvas with the updated camera position
         self.canvas.xview_scroll(-dx, "units")
